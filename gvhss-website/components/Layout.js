@@ -6,6 +6,7 @@ import { supabase } from '../lib/supabaseClient';
 export default function Layout({ title = 'GVHSS KADIRUR', children }) {
   const [session, setSession] = useState(null);
   const [role, setRole] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
@@ -44,23 +45,31 @@ export default function Layout({ title = 'GVHSS KADIRUR', children }) {
           <h1>GVHSS KADIRUR</h1>
           <p>Knowledge • Character • Excellence</p>
         </div>
+        <button
+          className="nav-toggle"
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-label="Toggle menu"
+        >
+          ☰
+        </button>
       </header>
 
-      <nav>
-        <Link href="/">Home</Link>
-        <Link href="/about">About</Link>
-        <Link href="/staff">Staff</Link>
-        <Link href="/news">News</Link>
-        <Link href="/gallery">Gallery</Link>
-        <Link href="/admissions">Admissions</Link>
-        <Link href="/contact">Contact</Link>
+      <nav className={menuOpen ? 'open' : ''}>
+        <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
+        <Link href="/about" onClick={() => setMenuOpen(false)}>About</Link>
+        <Link href="/staff" onClick={() => setMenuOpen(false)}>Staff</Link>
+        <Link href="/news" onClick={() => setMenuOpen(false)}>News</Link>
+        <Link href="/gallery" onClick={() => setMenuOpen(false)}>Gallery</Link>
+        <Link href="/downloads" onClick={() => setMenuOpen(false)}>Downloads</Link>
+        <Link href="/admissions" onClick={() => setMenuOpen(false)}>Admissions</Link>
+        <Link href="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
         {role === 'admin' || role === 'teacher' ? (
-          <Link href="/admin">Admin</Link>
+          <Link href="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>
         ) : null}
         {session ? (
           <a href="#" onClick={(e) => { e.preventDefault(); handleLogout(); }}>Logout</a>
         ) : (
-          <Link href="/login">Login</Link>
+          <Link href="/login" onClick={() => setMenuOpen(false)}>Login</Link>
         )}
       </nav>
 
@@ -69,7 +78,12 @@ export default function Layout({ title = 'GVHSS KADIRUR', children }) {
       <footer>
         <h3>Goverment Vocational Higher Secondary School</h3>
         <p>Knowledge • Character • Excellence</p>
-        <p>© {new Date().getFullYear()} GVHSS KADIRUR. All Rights Reserved.</p>
+        <div className="social-row" style={{ justifyContent: 'center' }}>
+          <a href="#" aria-label="Facebook" title="Facebook">f</a>
+          <a href="#" aria-label="YouTube" title="YouTube">▶</a>
+          <a href="#" aria-label="Instagram" title="Instagram">◎</a>
+        </div>
+        <p style={{ marginTop: '12px' }}>© {new Date().getFullYear()} GVHSS KADIRUR. All Rights Reserved.</p>
       </footer>
     </>
   );
