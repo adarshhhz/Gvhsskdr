@@ -1,6 +1,24 @@
+import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
+import { supabase } from '../lib/supabaseClient';
 
 export default function About() {
+  const [principalMessage, setPrincipalMessage] = useState('');
+  const [principalName, setPrincipalName] = useState('');
+
+  useEffect(() => {
+    supabase
+      .from('page_content')
+      .select('key, content')
+      .in('key', ['principal_message', 'principal_name'])
+      .then(({ data }) => {
+        const msg = data?.find((d) => d.key === 'principal_message');
+        const name = data?.find((d) => d.key === 'principal_name');
+        if (msg) setPrincipalMessage(msg.content);
+        if (name) setPrincipalName(name.content);
+      });
+  }, []);
+
   return (
     <Layout title="About Us - GVHSS KADIRUR">
       <section className="page-banner">
@@ -9,6 +27,19 @@ export default function About() {
       </section>
 
       <section className="content">
+        {principalMessage && (
+          <div className="principal-message">
+            <div className="avatar">🎓</div>
+            <div>
+              <h3 style={{ marginBottom: '8px' }}>Principal&apos;s Message</h3>
+              <p>{principalMessage}</p>
+              {principalName && (
+                <p style={{ marginTop: '10px', fontWeight: 'bold' }}>— {principalName}</p>
+              )}
+            </div>
+          </div>
+        )}
+
         <h2>Who We Are</h2>
         <p>
           GVHSS KADIRUR is an institution dedicated to providing quality
