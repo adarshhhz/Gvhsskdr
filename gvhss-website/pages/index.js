@@ -84,4 +84,31 @@ export default function Home() {
           </div>
           <div className="card">
             <h3>🔬 Science & Innovation</h3>
-            <p>Enc
+            <p>Encouraging students to explore science, technology and new ideas.</p>
+          </div>
+          <div className="card">
+            <h3>🏆 Achievements</h3>
+            <p>Celebrating excellence in academics, sports, arts and other activities.</p>
+          </div>
+        </div>
+      </section>
+
+      {testimonials.length > 0 && (
+        <section className="testimonials">
+          <div className="testimonials-inner">
+            <h2 style={{ color: 'var(--navy)', marginBottom: '20px' }}>What People Say</h2>
+            <div className="cards">
+              {testimonials.map((t) => (
+                <div className="testimonial-card" key={t.id}>
+                  <p className="msg">{t.message}</p>
+                  <p className="who">{t.name}</p>
+                  {t.role && <p className="role">{t.role}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+    </Layout>
+  );
+}
