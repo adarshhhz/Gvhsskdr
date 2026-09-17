@@ -17,12 +17,13 @@ export default function AdminMessages() {
         <section className="content">
           <h2>Contact Messages</h2>
           <table className="admin-table">
-            <thead><tr><th>Name</th><th>Email</th><th>Message</th><th>Date</th></tr></thead>
+            <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Message</th><th>Date</th></tr></thead>
             <tbody>
               {messages.map((m) => (
                 <tr key={m.id}>
                   <td>{m.name}</td>
                   <td>{m.email}</td>
+                  <td>{m.phone || '—'}</td>
                   <td>{m.message}</td>
                   <td>{new Date(m.created_at).toLocaleDateString()}</td>
                 </tr>
